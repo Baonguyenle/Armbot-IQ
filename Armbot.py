@@ -1,8 +1,8 @@
-# This is a program to control the Armbot with the VEX IQ Controller
+# This is a program to control the Armbot with the VEX IQ Controller:
 # - Base Rotator: L Down to turn left; R Down to turn right
-# - Shoulder: joystick A
-# - Elbow: Joystick D 
-# - Claw: L up release, R up grab 
+# - Shoulder: Joystick A
+# - Elbow: Joystick D
+# - Claw: L Up to release, R Up to grab
 
 
 # IMPORT OBJECTS FROM LIBRARY
@@ -25,7 +25,7 @@ brain = Brain()
 
 # init the Controller
 controller = Controller()
-controller.set_deadband(20)   # if movement is less than 20%, then consider 0%
+controller.set_deadband(10)   # if joystick position < 10%, then consider it 0%
 
 # init the Motors
 base_rotator_motor = Motor(Ports.PORT10, True)   # reverse direction
@@ -66,7 +66,9 @@ def control_shoulder():
 
 
 def control_elbow():
-    # Joystick D 
+    # Joystick D:
+    # - if up, then raise the elbow
+    # - if down, then lower the elbow
     joystick_d_position = controller.axisD.position()
 
     if joystick_d_position != 0:
@@ -77,16 +79,15 @@ def control_elbow():
         elbow_motor.stop(BrakeType.HOLD)
 
 
-
 def control_claw():
-    # L up: release
+    # L Up to release
     if controller.buttonLUp.pressing():
         claw_motor.spin(REVERSE, 100, PERCENT)
-    
-    # R up: grab
+
+    # R Up to grab
     elif controller.buttonRUp.pressing():
         claw_motor.spin(FORWARD, 100, PERCENT)
-        
+
     # otherwise stop
     else:
         claw_motor.stop(BrakeType.HOLD)
