@@ -12,6 +12,7 @@ from vex import (
     Brain,
     Controller,
     Motor,
+    Bumper,
     Ports,
     BrakeType, FORWARD, REVERSE, PERCENT
 )
@@ -33,6 +34,9 @@ shoulder_motor = Motor(Ports.PORT6, True)   # reverse direction
 elbow_motor = Motor(Ports.PORT1)
 claw_motor = Motor(Ports.PORT4)
 
+# init the Base Bumper
+base_bumper = Bumper(Ports.PORT2)
+
 
 # FUNCTIONS
 # =========
@@ -53,11 +57,12 @@ def control_base_rotator():
 
 def control_shoulder():
     # Joystick A:
-    # - if up, then raise the shoulder
+    # - if up, then raise the shoulder, unless the base bumper is pressed
     # - if down, then lower the shoulder
     joystick_a_position = controller.axisA.position()
 
-    if joystick_a_position != 0:
+    if ((joystick_a_position > 0) and (not base_bumper.pressing())) or \
+            (joystick_a_position < 0):
         shoulder_motor.spin(FORWARD, joystick_a_position, PERCENT)
 
     # otherwise stop
