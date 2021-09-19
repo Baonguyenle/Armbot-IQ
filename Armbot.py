@@ -57,7 +57,7 @@ def control_base_rotator():
 
 def control_shoulder():
     # Joystick A:
-    # - if up, then raise the shoulder
+    # - if up, then raise the shoulder, unless the base bumper is pressed
     # - if down, then lower the shoulder
     joystick_a_position = controller.axisA.position()
 
