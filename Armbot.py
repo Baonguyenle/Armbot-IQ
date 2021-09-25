@@ -34,9 +34,9 @@ shoulder_motor = Motor(Ports.PORT6, True)   # reverse direction
 elbow_motor = Motor(Ports.PORT1)
 claw_motor = Motor(Ports.PORT4)
 
-# init the Base Bumper
+# init the Base Bumper + Elbow Bumper
 base_bumper = Bumper(Ports.PORT2)
-
+elbow_bumper = Bumper(Ports.PORT9)
 
 # FUNCTIONS
 # =========
@@ -76,7 +76,8 @@ def control_elbow():
     # - if down, then lower the elbow
     joystick_d_position = controller.axisD.position()
 
-    if joystick_d_position != 0:
+    if ((joystick_d_position > 0) and (not elbow_bumper.pressing())) or \
+            (joystick_d_position < 0):
         elbow_motor.spin(FORWARD, joystick_d_position, PERCENT)
 
     # otherwise stop
