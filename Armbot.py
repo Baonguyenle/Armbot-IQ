@@ -14,7 +14,7 @@ from vex import (
     Motor,
     Bumper,
     Ports,
-    BrakeType, FORWARD, REVERSE, PERCENT
+    BrakeType, FORWARD, REVERSE, PERCENT, SECONDS
 )
 
 
@@ -33,12 +33,14 @@ base_rotator_motor = Motor(Ports.PORT10, True)   # reverse direction
 shoulder_motor = Motor(Ports.PORT6, True)   # reverse direction
 elbow_motor = Motor(Ports.PORT1)
 claw_motor = Motor(Ports.PORT4)
+claw_motor.set_timeout(0.1, SECONDS)   # set timeout to protect Claw motor
 
 # init the Base Bumper
 base_bumper = Bumper(Ports.PORT2)
 
 # init the Elbow Bumper
 elbow_bumper = Bumper(Ports.PORT9)
+
 
 # FUNCTIONS
 # =========
